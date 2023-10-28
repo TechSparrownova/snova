@@ -31,17 +31,17 @@ class TestUtils(unittest.TestCase):
 	def test_is_valid_frappe_branch(self):
 		with self.assertRaises(InvalidRemoteException):
 			is_valid_frappe_branch(
-				"https://github.com/TechSparrownova/frappe.git", frappe_branch="random-branch"
+				"https://github.com/TechSparrownova/saps.git", frappe_branch="random-branch"
 			)
 			is_valid_frappe_branch(
 				"https://github.com/random/random.git", frappe_branch="random-branch"
 			)
 
 		is_valid_frappe_branch(
-			"https://github.com/TechSparrownova/frappe.git", frappe_branch="develop"
+			"https://github.com/TechSparrownova/saps.git", frappe_branch="develop"
 		)
 		is_valid_frappe_branch(
-			"https://github.com/TechSparrownova/frappe.git", frappe_branch="v13.29.0"
+			"https://github.com/TechSparrownova/saps.git", frappe_branch="v13.29.0"
 		)
 
 	def test_app_states(self):
