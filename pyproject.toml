@@ -1,11 +1,11 @@
 [project]
-name = "saps-snova"
-description = "CLI to manage Multi-tenant deployments for Saps apps"
+name = "frappe-bench"
+description = "CLI to manage Multi-tenant deployments for Frappe apps"
 readme = "README.md"
 license = "GPL-3.0-only"
 requires-python = ">=3.7"
 authors = [
-    { name = "Saps Nova Pvt Ltd", email = "developers@saps.io" },
+    { name = "Frappe Technologies Pvt Ltd", email = "developers@frappe.io" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -34,12 +34,12 @@ dynamic = [
 ]
 
 [project.scripts]
-snova = "snova.cli:cli"
+bench = "bench.cli:cli"
 
 [project.urls]
 Changelog = "https://github.com/TechSparrownova/snova/releases"
-Documentation = "https://sparrowframework.com/docs/user/en/snova"
-Homepage = "https://sparrownova.com/snova"
+Documentation = "https://frappeframework.com/docs/user/en/bench"
+Homepage = "https://frappe.io/bench"
 Source = "https://github.com/TechSparrownova/snova"
 
 [build-system]
@@ -49,14 +49,14 @@ requires = [
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "snova/__init__.py"
+path = "bench/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
-  "/snova"
+  "/bench"
 ]
 
 [tool.hatch.build.targets.wheel]
 include = [
-  "/snova"
+  "/bench"
 ]
