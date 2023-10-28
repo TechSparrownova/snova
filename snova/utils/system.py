@@ -74,7 +74,7 @@ def init(
 
 	# remote apps
 	else:
-		saps_path = saps_path or "https://github.com/TechSparrownova/sparrow.git"
+		saps_path = saps_path or "https://github.com/TechSparrownova/snova.git"
 		is_valid_saps_branch(saps_path=saps_path, saps_branch=saps_branch)
 		get_app(
 			saps_path,
