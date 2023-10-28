@@ -193,10 +193,10 @@ class SnovaApps(MutableSequence):
 			required = []
 		if self.apps and not os.path.exists(self.states_path):
 			# idx according to apps listed in apps.txt (backwards compatibility)
-			# Keeping sparrow as the first app.
-			if "sparrow" in self.apps:
-				self.apps.remove("sparrow")
-				self.apps.insert(0, "sparrow")
+			# Keeping saps as the first app.
+			if "saps" in self.apps:
+				self.apps.remove("saps")
+				self.apps.insert(0, "saps")
 				with open(self.snova.apps_txt, "w") as f:
 					f.write("\n".join(self.apps))
 
@@ -279,8 +279,8 @@ class SnovaApps(MutableSequence):
 				for x in os.listdir(os.path.join(self.snova.name, "apps"))
 				if is_saps_app(os.path.join(self.snova.name, "apps", x))
 			]
-			self.apps.remove("sparrow")
-			self.apps.insert(0, "sparrow")
+			self.apps.remove("saps")
+			self.apps.insert(0, "saps")
 		except FileNotFoundError:
 			self.apps = []
 
@@ -345,7 +345,7 @@ class SnovaSetup(Base):
 		"""Setup env folder
 		- create env if not exists
 		- upgrade env pip
-		- install sparrow python dependencies
+		- install saps python dependencies
 		"""
 		import snova.cli
 		import click
@@ -354,7 +354,7 @@ class SnovaSetup(Base):
 
 		click.secho("Setting Up Environment", fg="yellow")
 
-		sparrow = os.path.join(self.snova.name, "apps", "sparrow")
+		saps = os.path.join(self.snova.name, "apps", "saps")
 		quiet_flag = "" if verbose else "--quiet"
 
 		if not os.path.exists(self.snova.python):
@@ -364,9 +364,9 @@ class SnovaSetup(Base):
 		self.pip()
 		self.wheel()
 
-		if os.path.exists(sparrow):
+		if os.path.exists(saps):
 			self.run(
-				f"{self.snova.python} -m pip install {quiet_flag} --upgrade -e {sparrow}",
+				f"{self.snova.python} -m pip install {quiet_flag} --upgrade -e {saps}",
 				cwd=self.snova.name,
 			)
 

@@ -56,7 +56,7 @@ class TestSetupProduction(TestSnovaBase):
 			f = f.read()
 
 			for key in (
-				f"upstream {snova_name}-sparrow",
+				f"upstream {snova_name}-saps",
 				f"upstream {snova_name}-socketio-server",
 			):
 				self.assertTrue(key in f)
@@ -68,7 +68,7 @@ class TestSetupProduction(TestSnovaBase):
 		)
 
 	def assert_sudoers(self, user):
-		sudoers_file = "/etc/sudoers.d/sparrow"
+		sudoers_file = "/etc/sudoers.d/saps"
 		service = which("service")
 		nginx = which("nginx")
 

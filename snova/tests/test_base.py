@@ -55,7 +55,7 @@ class TestSnovaBase(unittest.TestCase):
 	def assert_folders(self, snova_name):
 		for folder in paths_in_snova:
 			self.assert_exists(snova_name, folder)
-		self.assert_exists(snova_name, "apps", "sparrow")
+		self.assert_exists(snova_name, "apps", "saps")
 
 	def assert_virtual_env(self, snova_name):
 		snova_path = os.path.abspath(snova_name)
@@ -100,11 +100,11 @@ class TestSnovaBase(unittest.TestCase):
 
 	def init_snova(self, snova_name, **kwargs):
 		self.snovaes.append(snova_name)
-		saps_tmp_path = "/tmp/sparrow"
+		saps_tmp_path = "/tmp/saps"
 
 		if not os.path.exists(saps_tmp_path):
 			exec_cmd(
-				f"git clone https://github.com/TechSparrownova/sparrow -b {SAPS_BRANCH} --depth 1 --origin upstream {saps_tmp_path}"
+				f"git clone https://github.com/TechSparrownova/saps -b {SAPS_BRANCH} --depth 1 --origin upstream {saps_tmp_path}"
 			)
 
 		kwargs.update(
@@ -119,8 +119,8 @@ class TestSnovaBase(unittest.TestCase):
 		if not os.path.exists(os.path.join(self.snovaes_path, snova_name)):
 			init(snova_name, **kwargs)
 			exec_cmd(
-				"git remote set-url upstream https://github.com/TechSparrownova/sparrow",
-				cwd=os.path.join(self.snovaes_path, snova_name, "apps", "sparrow"),
+				"git remote set-url upstream https://github.com/TechSparrownova/saps",
+				cwd=os.path.join(self.snovaes_path, snova_name, "apps", "saps"),
 			)
 
 	def file_exists(self, path):

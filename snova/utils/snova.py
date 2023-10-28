@@ -53,7 +53,7 @@ def update_node_packages(snova_path=".", apps=None):
 
 	from snova.utils.app import get_develop_version
 
-	v = LooseVersion(get_develop_version("sparrow", snova_path=snova_path))
+	v = LooseVersion(get_develop_version("saps", snova_path=snova_path))
 
 	# After rollup was merged, saps_version = 10.1
 	# if develop_verion is 11 and up, only then install yarn
@@ -225,10 +225,10 @@ def migrate_env(python, backup=False):
 		logger.log(f"Setting up a New Virtual {python} Environment")
 		exec_cmd(f"{python} -m venv {pvenv}")
 
-		# Install sparrow first
-		_install_app("sparrow")
+		# Install saps first
+		_install_app("saps")
 		for app in snova.apps:
-			if str(app) != "sparrow":
+			if str(app) != "saps":
 				_install_app(app)
 
 		logger.log(f"Migration Successful to {python}")
@@ -316,7 +316,7 @@ def restart_supervisor_processes(snova_path=".", web_workers=False, _raise=False
 
 		# backward compatibility
 		else:
-			group = "sparrow:"
+			group = "saps:"
 
 		failure = snova.run(f"{sudo}supervisorctl restart {group}", _raise=_raise)
 		if failure:
@@ -608,7 +608,7 @@ def validate_branch():
 	apps = Snova(".").apps
 
 	installed_apps = set(apps)
-	check_apps = {"sparrow", "shopper"}
+	check_apps = {"saps", "shopper"}
 	intersection_apps = installed_apps.intersection(check_apps)
 
 	for app in intersection_apps:

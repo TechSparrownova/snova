@@ -19,7 +19,7 @@ def download_translations_p():
 	pool = multiprocessing.Pool(multiprocessing.cpu_count())
 
 	langs = get_langs()
-	apps = ("sparrow", "shopper")
+	apps = ("saps", "shopper")
 	args = list(itertools.product(apps, langs))
 
 	pool.map(update_translations_p, args)
@@ -27,13 +27,13 @@ def download_translations_p():
 
 def download_translations():
 	langs = get_langs()
-	apps = ("sparrow", "shopper")
+	apps = ("saps", "shopper")
 	for app, lang in itertools.product(apps, langs):
 		update_translations(app, lang)
 
 
 def get_langs():
-	lang_file = "apps/saps/sparrow/geo/languages.json"
+	lang_file = "apps/saps/saps/geo/languages.json"
 	with open(lang_file) as f:
 		langs = json.loads(f.read())
 	return [d["code"] for d in langs]

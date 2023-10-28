@@ -5,7 +5,7 @@ readme = "README.md"
 license = "GPL-3.0-only"
 requires-python = ">=3.7"
 authors = [
-    { name = "Saps Nova Pvt Ltd", email = "developers@sparrow.io" },
+    { name = "Saps Nova Pvt Ltd", email = "developers@saps.io" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

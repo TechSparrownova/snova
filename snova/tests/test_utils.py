@@ -11,7 +11,7 @@ from snova.utils import is_valid_saps_branch
 
 class TestUtils(unittest.TestCase):
 	def test_app_utils(self):
-		git_url = "https://github.com/TechSparrownova/sparrow"
+		git_url = "https://github.com/TechSparrownova/saps"
 		branch = "develop"
 		app = App(name=git_url, branch=branch, snova=Snova("."))
 		self.assertTrue(
@@ -22,7 +22,7 @@ class TestUtils(unittest.TestCase):
 					app.tag == branch,
 					app.is_url is True,
 					app.on_disk is False,
-					app.org == "sparrow",
+					app.org == "saps",
 					app.url == git_url,
 				]
 			)
@@ -56,7 +56,7 @@ class TestUtils(unittest.TestCase):
 		self.assertTrue(hasattr(fake_snova.apps, "states"))
 
 		fake_snova.apps.states = {
-			"sparrow": {
+			"saps": {
 				"resolution": {"branch": "develop", "commit_hash": "234rwefd"},
 				"version": "14.0.0-dev",
 			}
@@ -65,13 +65,13 @@ class TestUtils(unittest.TestCase):
 
 		self.assertEqual(fake_snova.apps.states, {})
 
-		saps_path = os.path.join(snova_dir, "apps", "sparrow")
+		saps_path = os.path.join(snova_dir, "apps", "saps")
 
-		os.makedirs(os.path.join(saps_path, "sparrow"))
+		os.makedirs(os.path.join(saps_path, "saps"))
 
 		subprocess.run(["git", "init"], cwd=saps_path, capture_output=True, check=True)
 
-		with open(os.path.join(saps_path, "sparrow", "__init__.py"), "w+") as f:
+		with open(os.path.join(saps_path, "saps", "__init__.py"), "w+") as f:
 			f.write("__version__ = '11.0'")
 
 		subprocess.run(["git", "add", "."], cwd=saps_path, capture_output=True, check=True)
@@ -91,16 +91,16 @@ class TestUtils(unittest.TestCase):
 			["git", "commit", "-m", "temp"], cwd=saps_path, capture_output=True, check=True
 		)
 
-		fake_snova.apps.update_apps_states(app_name="sparrow")
+		fake_snova.apps.update_apps_states(app_name="saps")
 
-		self.assertIn("sparrow", fake_snova.apps.states)
-		self.assertIn("version", fake_snova.apps.states["sparrow"])
-		self.assertEqual("11.0", fake_snova.apps.states["sparrow"]["version"])
+		self.assertIn("saps", fake_snova.apps.states)
+		self.assertIn("version", fake_snova.apps.states["saps"])
+		self.assertEqual("11.0", fake_snova.apps.states["saps"]["version"])
 
 		shutil.rmtree(snova_dir)
 
 	def test_ssh_ports(self):
-		app = App("git@github.com:22:sparrow/sparrow")
+		app = App("git@github.com:22:saps/saps")
 		self.assertEqual(
-			(app.use_ssh, app.org, app.repo, app.app_name), (True, "sparrow", "sparrow", "sparrow")
+			(app.use_ssh, app.org, app.repo, app.app_name), (True, "saps", "saps", "saps")
 		)

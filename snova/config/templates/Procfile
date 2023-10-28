@@ -15,8 +15,8 @@ worker: snova worker 1>> logs/worker.log 2>> logs/worker.error.log
 worker_{{ worker_name }}: snova worker --queue {{ worker_name }} 1>> logs/worker.log 2>> logs/worker.error.log
 {% endfor %}
 {% else %}
-workerbeat: sh -c 'cd sites && exec ../env/bin/python -m sparrow.celery_app beat -s scheduler.schedule'
-worker: sh -c 'cd sites && exec ../env/bin/python -m sparrow.celery_app worker -n jobs@%h -Ofair --soft-time-limit 360 --time-limit 390'
-longjob_worker: sh -c 'cd sites && exec ../env/bin/python -m sparrow.celery_app worker -n longjobs@%h -Ofair --soft-time-limit 1500 --time-limit 1530'
-async_worker: sh -c 'cd sites && exec ../env/bin/python -m sparrow.celery_app worker -n async@%h -Ofair --soft-time-limit 1500 --time-limit 1530'
+workerbeat: sh -c 'cd sites && exec ../env/bin/python -m saps.celery_app beat -s scheduler.schedule'
+worker: sh -c 'cd sites && exec ../env/bin/python -m saps.celery_app worker -n jobs@%h -Ofair --soft-time-limit 360 --time-limit 390'
+longjob_worker: sh -c 'cd sites && exec ../env/bin/python -m saps.celery_app worker -n longjobs@%h -Ofair --soft-time-limit 1500 --time-limit 1530'
+async_worker: sh -c 'cd sites && exec ../env/bin/python -m saps.celery_app worker -n async@%h -Ofair --soft-time-limit 1500 --time-limit 1530'
 {%- endif %}

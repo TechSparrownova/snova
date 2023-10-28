@@ -44,8 +44,8 @@ class AppMeta:
 		"""
 		name (str): This could look something like
 		        1. https://github.com/TechSparrownova/healthcare.git
-		        2. git@github.com:sparrow/healthcare.git
-		        3. sparrow/healthcare@develop
+		        2. git@github.com:saps/healthcare.git
+		        3. saps/healthcare@develop
 		        4. healthcare
 		        5. healthcare@develop, healthcare@v13.12.1
 
@@ -54,7 +54,7 @@ class AppMeta:
 		 * https://docs.npmjs.com/about-semantic-versioning
 
 		class Healthcare(AppConfig):
-		        dependencies = [{"sparrow/shopper": "~13.17.0"}]
+		        dependencies = [{"saps/shopper": "~13.17.0"}]
 		"""
 		self.name = name.rstrip("/")
 		self.remote_server = "github.com"
@@ -233,7 +233,7 @@ class App(AppMeta):
 
 		verbose = snova.cli.verbose or verbose
 		app_name = get_app_name(self.snova.name, self.app_name)
-		if not resolved and self.app_name != "sparrow" and not ignore_resolution:
+		if not resolved and self.app_name != "saps" and not ignore_resolution:
 			click.secho(
 				f"Ignoring dependencies of {self.name}. To install dependencies use --resolve-deps",
 				fg="yellow",
@@ -314,7 +314,7 @@ def get_excluded_apps(snova_path="."):
 
 
 def add_to_excluded_apps_txt(app, snova_path="."):
-	if app == "sparrow":
+	if app == "saps":
 		raise ValueError("Saps app cannot be excluded from update")
 	if app not in os.listdir("apps"):
 		raise ValueError(f"The app {app} does not exist")
@@ -376,9 +376,9 @@ def get_app(
 				f"{idx}. {app.name} {f'(required by {app.required_by})' if app.required_by else ''}"
 			)
 
-		if "sparrow" in resolution:
-			# Todo: Make sparrow a terminal dependency for all sparrow apps.
-			saps_path, saps_branch = resolution["sparrow"].url, resolution["sparrow"].tag
+		if "saps" in resolution:
+			# Todo: Make saps a terminal dependency for all saps apps.
+			saps_path, saps_branch = resolution["saps"].url, resolution["saps"].tag
 
 	if not is_snova_directory(snova_path):
 		if not init_snova:
@@ -453,9 +453,9 @@ def install_resolved_deps(
 ):
 	from snova.utils.app import check_existing_dir
 
-	if "sparrow" in resolution:
+	if "saps" in resolution:
 		# Terminal dependency
-		del resolution["sparrow"]
+		del resolution["saps"]
 
 	for repo_name, app in reversed(resolution.items()):
 		existing_dir, path_to_app = check_existing_dir(snova_path, repo_name)
@@ -669,7 +669,7 @@ Here are your choices:
 
 def use_rq(snova_path):
 	snova_path = os.path.abspath(snova_path)
-	celery_app = os.path.join(snova_path, "apps", "sparrow", "sparrow", "celery_app.py")
+	celery_app = os.path.join(snova_path, "apps", "saps", "saps", "celery_app.py")
 	return not os.path.exists(celery_app)
 
 

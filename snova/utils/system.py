@@ -43,7 +43,7 @@ def init(
 	* setup env for the snova
 	* setup config (dir/pids/redis/procfile) for the snova
 	* setup patches.txt for snova
-	* clone & install sparrow
+	* clone & install saps
 	        * install python & node dependencies
 	        * build assets
 	* setup backups crontab
@@ -182,7 +182,7 @@ def fix_prod_setup_perms(snova_path=".", saps_user=None):
 	saps_user = saps_user or Snova(snova_path).conf.get("saps_user")
 
 	if not saps_user:
-		print("sparrow user not set")
+		print("saps user not set")
 		sys.exit(1)
 
 	globs = ["logs/*", "config/*"]

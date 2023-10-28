@@ -195,13 +195,13 @@ def change_uid():
 def app_cmd(snova_path="."):
 	f = get_env_cmd("python", snova_path=snova_path)
 	os.chdir(os.path.join(snova_path, "sites"))
-	os.execv(f, [f] + ["-m", "sparrow.utils.snova_helper"] + sys.argv[1:])
+	os.execv(f, [f] + ["-m", "saps.utils.snova_helper"] + sys.argv[1:])
 
 
 def saps_cmd(snova_path="."):
 	f = get_env_cmd("python", snova_path=snova_path)
 	os.chdir(os.path.join(snova_path, "sites"))
-	os.execv(f, [f] + ["-m", "sparrow.utils.snova_helper", "sparrow"] + sys.argv[1:])
+	os.execv(f, [f] + ["-m", "saps.utils.snova_helper", "saps"] + sys.argv[1:])
 
 
 def get_saps_commands():
@@ -216,7 +216,7 @@ def get_saps_help(snova_path="."):
 	sites_path = os.path.join(snova_path, "sites")
 	try:
 		out = get_cmd_output(
-			f"{python} -m sparrow.utils.snova_helper get-saps-help", cwd=sites_path
+			f"{python} -m saps.utils.snova_helper get-saps-help", cwd=sites_path
 		)
 		return "\n\nFramework commands:\n" + out.split("Commands:")[1]
 	except Exception:

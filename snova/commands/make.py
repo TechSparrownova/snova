@@ -9,7 +9,7 @@ import click
 	"--saps-branch",
 	"saps_branch",
 	default=None,
-	help="Clone a particular branch of sparrow",
+	help="Clone a particular branch of saps",
 )
 @click.option(
 	"--ignore-exist", is_flag=True, default=False, help="Ignore if Snova instance exists."
@@ -20,7 +20,7 @@ import click
 @click.option(
 	"--apps_path", default=None, help="path to json files with apps to install after init"
 )
-@click.option("--saps-path", default=None, help="path to sparrow repo")
+@click.option("--saps-path", default=None, help="path to saps repo")
 @click.option("--clone-from", default=None, help="copy repos from path")
 @click.option(
 	"--clone-without-update", is_flag=True, help="copy repos from path without update"

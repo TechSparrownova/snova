@@ -17,7 +17,7 @@ from snova.exceptions import (
 from snova.app import get_repo_dir
 
 
-def is_version_upgrade(app="sparrow", snova_path=".", branch=None):
+def is_version_upgrade(app="saps", snova_path=".", branch=None):
 	upstream_version = get_upstream_version(app=app, branch=branch, snova_path=snova_path)
 
 	if not upstream_version:
@@ -163,7 +163,7 @@ def get_upstream_version(app, branch=None, snova_path="."):
 
 def get_current_saps_version(snova_path="."):
 	try:
-		return get_major_version(get_current_version("sparrow", snova_path=snova_path))
+		return get_major_version(get_current_version("saps", snova_path=snova_path))
 	except OSError:
 		return 0
 

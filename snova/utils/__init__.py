@@ -24,7 +24,7 @@ from snova.exceptions import (
 logger = logging.getLogger(PROJECT_NAME)
 paths_in_app = ("hooks.py", "modules.txt", "patches.txt")
 paths_in_snova = ("apps", "sites", "config", "logs", "config/pids")
-sudoers_file = "/etc/sudoers.d/sparrow"
+sudoers_file = "/etc/sudoers.d/saps"
 UNSET_ARG = object()
 
 
@@ -76,7 +76,7 @@ def is_valid_saps_branch(saps_path: str, saps_branch: str):
 					f"Invalid branch or tag: {saps_branch} for the remote {saps_path}"
 				)
 		except GitCommandError as e:
-			raise InvalidRemoteException(f"Invalid sparrow path: {saps_path}") from e
+			raise InvalidRemoteException(f"Invalid saps path: {saps_path}") from e
 
 
 def log(message, level=0, no_log=False, stderr=False):
@@ -244,7 +244,7 @@ def run_saps_cmd(*args, **kwargs):
 		stderr = stdout = None
 
 	p = subprocess.Popen(
-		(f, "-m", "sparrow.utils.snova_helper", "sparrow") + args,
+		(f, "-m", "saps.utils.snova_helper", "saps") + args,
 		cwd=sites_dir,
 		stdout=stdout,
 		stderr=stderr,
@@ -395,7 +395,7 @@ def get_env_saps_commands(snova_path=".") -> List:
 	try:
 		return json.loads(
 			get_cmd_output(
-				f"{python} -m sparrow.utils.snova_helper get-saps-commands", cwd=sites_path
+				f"{python} -m saps.utils.snova_helper get-saps-commands", cwd=sites_path
 			)
 		)
 
@@ -411,14 +411,14 @@ def find_org(org_repo):
 
 	org_repo = org_repo[0]
 
-	for org in ["sparrow", "shopper"]:
+	for org in ["saps", "shopper"]:
 		res = requests.head(f"https://api.github.com/repos/{org}/{org_repo}")
 		if res.status_code in (400, 403):
 			res = requests.head(f"https://github.com/{org}/{org_repo}")
 		if res.ok:
 			return org, org_repo
 
-	raise InvalidRemoteException(f"{org_repo} not found in sparrow or shopper")
+	raise InvalidRemoteException(f"{org_repo} not found in saps or shopper")
 
 
 def fetch_details_from_tag(_tag: str) -> Tuple[str, str, str]:
@@ -497,10 +497,10 @@ def get_traceback() -> str:
 class _dict(dict):
 	"""dict like object that exposes keys as attributes"""
 
-	# snova port of sparrow._dict
+	# snova port of saps._dict
 	def __getattr__(self, key):
 		ret = self.get(key)
-		# "__deepcopy__" exception added to fix sparrow#14833 via DFP
+		# "__deepcopy__" exception added to fix saps#14833 via DFP
 		if not ret and key.startswith("__") and key != "__deepcopy__":
 			raise AttributeError()
 		return ret
@@ -531,7 +531,7 @@ def get_cmd_from_sysargv():
 	Actual command run: migrate
 
 	"""
-	# context is passed as options to sparrow's snova_helper
+	# context is passed as options to saps's snova_helper
 	from snova.snova import Snova
 
 	saps_context = _dict(params={"--site"}, flags={"--verbose", "--profile", "--force"})

@@ -110,7 +110,7 @@ def can_enable_multi_queue_consumption(snova_path: str) -> bool:
 
 		supported_version = Version(major=14, minor=18, patch=0)
 
-		saps_version = Version(get_current_version("sparrow", snova_path=snova_path))
+		saps_version = Version(get_current_version("saps", snova_path=snova_path))
 
 		return saps_version > supported_version
 	except Exception:
@@ -120,7 +120,7 @@ def can_enable_multi_queue_consumption(snova_path: str) -> bool:
 def check_supervisord_config(user=None):
 	"""From snova v5.x, we're moving to supervisor running as user"""
 	# i don't think snova should be responsible for this but we're way past this now...
-	# removed updating supervisord conf & reload in Aug 2022 - gavin@sparrow.io
+	# removed updating supervisord conf & reload in Aug 2022 - gavin@saps.io
 	import configparser
 
 	if not user:

@@ -26,16 +26,16 @@ class TestSnovaInit(TestSnovaBase):
 
 	def test_init(self, snova_name="test-snova", **kwargs):
 		self.init_snova(snova_name, **kwargs)
-		app = App("file:///tmp/sparrow")
+		app = App("file:///tmp/saps")
 		self.assertTupleEqual(
 			(app.mount_path, app.url, app.repo, app.app_name, app.org),
-			("/tmp/sparrow", "file:///tmp/sparrow", "sparrow", "sparrow", "sparrow"),
+			("/tmp/saps", "file:///tmp/saps", "saps", "saps", "saps"),
 		)
 		self.assert_folders(snova_name)
 		self.assert_virtual_env(snova_name)
 		self.assert_config(snova_name)
 		test_snova = Snova(snova_name)
-		app = App("sparrow", snova=test_snova)
+		app = App("saps", snova=test_snova)
 		self.assertEqual(app.from_apps, True)
 
 	def basic(self):
@@ -174,7 +174,7 @@ class TestSnovaInit(TestSnovaBase):
 	def test_switch_to_branch(self):
 		self.init_snova("test-snova", skip_assets=True)
 		snova_path = os.path.join(self.snovaes_path, "test-snova")
-		app_path = os.path.join(snova_path, "apps", "sparrow")
+		app_path = os.path.join(snova_path, "apps", "saps")
 
 		# * chore: change to 14 when avalible
 		prevoius_branch = "version-13"
@@ -183,7 +183,7 @@ class TestSnovaInit(TestSnovaBase):
 			prevoius_branch = f"version-{int(SAPS_BRANCH.split('-')[1]) - 1}"
 
 		successful_switch = not exec_cmd(
-			f"snova switch-to-branch {prevoius_branch} sparrow --upgrade",
+			f"snova switch-to-branch {prevoius_branch} saps --upgrade",
 			cwd=snova_path,
 			_raise=False,
 		)
@@ -192,7 +192,7 @@ class TestSnovaInit(TestSnovaBase):
 			self.assertEqual(prevoius_branch, app_branch_after_switch)
 
 		successful_switch = not exec_cmd(
-			f"snova switch-to-branch {SAPS_BRANCH} sparrow --upgrade",
+			f"snova switch-to-branch {SAPS_BRANCH} saps --upgrade",
 			cwd=snova_path,
 			_raise=False,
 		)

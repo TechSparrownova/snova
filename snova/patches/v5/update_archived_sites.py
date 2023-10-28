@@ -6,7 +6,7 @@ patch and try again later.
 1. Rename folder `./archived_sites` to `./archived/sites`
 2. Create a symlink `./archived_sites` => `./archived/sites`
 
-Corresponding changes in sparrow/sparrow via https://github.com/TechSparrownova/saps/pull/15060
+Corresponding changes in saps/saps via https://github.com/TechSparrownova/saps/pull/15060
 """
 import os
 from pathlib import Path
@@ -17,7 +17,7 @@ from semantic_version import Version
 
 
 def execute(snova_path):
-	saps_version = Version(get_current_version("sparrow"))
+	saps_version = Version(get_current_version("saps"))
 
 	if saps_version.major < 14 or os.name != "posix":
 		# Returning False means patch has been skipped
