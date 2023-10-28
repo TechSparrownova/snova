@@ -1,5 +1,5 @@
 ---
-# This is the master playbook that deploys the whole Sparrow and SHOPPER stack
+# This is the master playbook that deploys the whole Saps and SHOPPER stack
 
 - hosts: localhost
   become: yes
@@ -12,7 +12,7 @@
     - { role: swap,              tags: swap,             when: production and not container }
     - { role: logwatch,          tags: logwatch,         when: production                   }
     - { role: bash_screen_wall,  tags: bash_screen_wall, when: production                   }
-    - { role: sparrow_selinux,    tags: sparrow_selinux,   when: production                   }
+    - { role: saps_selinux,    tags: saps_selinux,   when: production                   }
     - { role: dns_caching,       tags: dns_caching,      when: production                   }
     - { role: ntpd,              tags: ntpd,             when: production                   }
     - { role: wkhtmltopdf,       tags: wkhtmltopdf                                          }
@@ -43,6 +43,6 @@
     snova_repo_path: "{{ user_directory }}/.snova"
     snova_path: "{{ user_directory }}/{{ snova_name }}"
   roles:
-  # setup sparrow-snova
+  # setup saps-snova
     - { role: snova, tags: "snova", when: not run_travis and not without_snova_setup }
 ...

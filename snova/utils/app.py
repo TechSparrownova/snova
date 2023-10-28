@@ -161,7 +161,7 @@ def get_upstream_version(app, branch=None, snova_path="."):
 	return get_version_from_string(contents)
 
 
-def get_current_sparrow_version(snova_path="."):
+def get_current_saps_version(snova_path="."):
 	try:
 		return get_major_version(get_current_version("sparrow", snova_path=snova_path))
 	except OSError:

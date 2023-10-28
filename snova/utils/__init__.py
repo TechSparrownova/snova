@@ -38,29 +38,29 @@ def is_snova_directory(directory=os.path.curdir):
 	return is_snova
 
 
-def is_sparrow_app(directory: str) -> bool:
-	is_sparrow_app = True
+def is_saps_app(directory: str) -> bool:
+	is_saps_app = True
 
 	for folder in paths_in_app:
-		if not is_sparrow_app:
+		if not is_saps_app:
 			break
 
 		path = glob(os.path.join(directory, "**", folder))
-		is_sparrow_app = is_sparrow_app and path
+		is_saps_app = is_saps_app and path
 
-	return bool(is_sparrow_app)
+	return bool(is_saps_app)
 
 
 @lru_cache(maxsize=None)
-def is_valid_sparrow_branch(sparrow_path: str, sparrow_branch: str):
+def is_valid_saps_branch(saps_path: str, saps_branch: str):
 	"""Check if a branch exists in a repo. Throws InvalidRemoteException if branch is not found
 
 	Uses native git command to check for branches on a remote.
 
-	:param sparrow_path: git url
-	:type sparrow_path: str
-	:param sparrow_branch: branch to check
-	:type sparrow_branch: str
+	:param saps_path: git url
+	:type saps_path: str
+	:param saps_branch: branch to check
+	:type saps_branch: str
 	:raises InvalidRemoteException: branch for this repo doesn't exist
 	"""
 	from git.cmd import Git
@@ -68,15 +68,15 @@ def is_valid_sparrow_branch(sparrow_path: str, sparrow_branch: str):
 
 	g = Git()
 
-	if sparrow_branch:
+	if saps_branch:
 		try:
-			res = g.ls_remote("--heads", "--tags", sparrow_path, sparrow_branch)
+			res = g.ls_remote("--heads", "--tags", saps_path, saps_branch)
 			if not res:
 				raise InvalidRemoteException(
-					f"Invalid branch or tag: {sparrow_branch} for the remote {sparrow_path}"
+					f"Invalid branch or tag: {saps_branch} for the remote {saps_path}"
 				)
 		except GitCommandError as e:
-			raise InvalidRemoteException(f"Invalid sparrow path: {sparrow_path}") from e
+			raise InvalidRemoteException(f"Invalid sparrow path: {saps_path}") from e
 
 
 def log(message, level=0, no_log=False, stderr=False):
@@ -113,7 +113,7 @@ def check_latest_version():
 	from semantic_version import Version
 
 	try:
-		pypi_request = requests.get("https://pypi.org/pypi/sparrow-snova/json")
+		pypi_request = requests.get("https://pypi.org/pypi/saps-snova/json")
 	except Exception:
 		# Exceptions thrown are defined in requests.exceptions
 		# ignore checking on all Exceptions
@@ -229,7 +229,7 @@ def is_root():
 	return os.getuid() == 0
 
 
-def run_sparrow_cmd(*args, **kwargs):
+def run_saps_cmd(*args, **kwargs):
 	from snova.cli import from_command_line
 	from snova.utils.snova import get_env_cmd
 
@@ -383,8 +383,8 @@ def find_parent_snova(path: str) -> str:
 		return find_parent_snova(parent_dir)
 
 
-def get_env_sparrow_commands(snova_path=".") -> List:
-	"""Caches all available commands (even custom apps) via Sparrow
+def get_env_saps_commands(snova_path=".") -> List:
+	"""Caches all available commands (even custom apps) via Saps
 	Default caching behaviour: generated the first time any command (for a specific snova directory)
 	"""
 	from snova.utils.snova import get_env_cmd
@@ -395,7 +395,7 @@ def get_env_sparrow_commands(snova_path=".") -> List:
 	try:
 		return json.loads(
 			get_cmd_output(
-				f"{python} -m sparrow.utils.snova_helper get-sparrow-commands", cwd=sites_path
+				f"{python} -m sparrow.utils.snova_helper get-saps-commands", cwd=sites_path
 			)
 		)
 
@@ -527,14 +527,14 @@ def get_cmd_from_sysargv():
 	"""Identify and segregate tokens to options and command
 
 	For Command: `snova --profile --site sparrowframework.com migrate --no-backup`
-	sys.argv: ["/home/sparrow/.local/bin/snova", "--profile", "--site", "sparrowframework.com", "migrate", "--no-backup"]
+	sys.argv: ["/home/saps/.local/bin/snova", "--profile", "--site", "sparrowframework.com", "migrate", "--no-backup"]
 	Actual command run: migrate
 
 	"""
 	# context is passed as options to sparrow's snova_helper
 	from snova.snova import Snova
 
-	sparrow_context = _dict(params={"--site"}, flags={"--verbose", "--profile", "--force"})
+	saps_context = _dict(params={"--site"}, flags={"--verbose", "--profile", "--force"})
 	cmd_from_ctx = None
 	sys_argv = sys.argv[1:]
 	skip_next = False
@@ -544,10 +544,10 @@ def get_cmd_from_sysargv():
 			skip_next = False
 			continue
 
-		if arg in sparrow_context.flags:
+		if arg in saps_context.flags:
 			continue
 
-		elif arg in sparrow_context.params:
+		elif arg in saps_context.params:
 			skip_next = True
 			continue
 

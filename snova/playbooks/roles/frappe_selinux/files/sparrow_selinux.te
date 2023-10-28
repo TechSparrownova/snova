@@ -1,4 +1,4 @@
-module sparrow_selinux 1.0;
+module saps_selinux 1.0;
 
 require {
 	type user_home_dir_t;

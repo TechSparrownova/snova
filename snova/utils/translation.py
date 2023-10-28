@@ -33,7 +33,7 @@ def download_translations():
 
 
 def get_langs():
-	lang_file = "apps/sparrow/sparrow/geo/languages.json"
+	lang_file = "apps/saps/sparrow/geo/languages.json"
 	with open(lang_file) as f:
 		langs = json.loads(f.read())
 	return [d["code"] for d in langs]

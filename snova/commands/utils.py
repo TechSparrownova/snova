@@ -5,7 +5,7 @@ import os
 import click
 
 
-@click.command("start", help="Start Sparrow development processes")
+@click.command("start", help="Start Saps development processes")
 @click.option("--no-dev", is_flag=True, default=False)
 @click.option(
 	"--no-prefix",

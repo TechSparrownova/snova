@@ -2,22 +2,22 @@
 - name: Setup production
   become: yes
   become_user: root
-  command: snova setup production {{ sparrow_user }} --yes
+  command: snova setup production {{ saps_user }} --yes
   args:
     chdir: '{{ snova_path }}'
 
 - name: Setup Sudoers
   become: yes
   become_user: root
-  command: snova setup sudoers {{ sparrow_user }}
+  command: snova setup sudoers {{ saps_user }}
   args:
     chdir: '{{ snova_path }}'
 
 - name: Set correct permissions on snova.log
   file:
     path: '{{ snova_path }}/logs/snova.log'
-    owner: '{{ sparrow_user }}'
-    group: '{{ sparrow_user }}'
+    owner: '{{ saps_user }}'
+    group: '{{ saps_user }}'
   become: yes
   become_user: root
 

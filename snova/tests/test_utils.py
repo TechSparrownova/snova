@@ -6,7 +6,7 @@ import unittest
 from snova.app import App
 from snova.snova import Snova
 from snova.exceptions import InvalidRemoteException
-from snova.utils import is_valid_sparrow_branch
+from snova.utils import is_valid_saps_branch
 
 
 class TestUtils(unittest.TestCase):
@@ -28,20 +28,20 @@ class TestUtils(unittest.TestCase):
 			)
 		)
 
-	def test_is_valid_sparrow_branch(self):
+	def test_is_valid_saps_branch(self):
 		with self.assertRaises(InvalidRemoteException):
-			is_valid_sparrow_branch(
-				"https://github.com/TechSparrownova/sparrow.git", sparrow_branch="random-branch"
+			is_valid_saps_branch(
+				"https://github.com/TechSparrownova/sparrow.git", saps_branch="random-branch"
 			)
-			is_valid_sparrow_branch(
-				"https://github.com/random/random.git", sparrow_branch="random-branch"
+			is_valid_saps_branch(
+				"https://github.com/random/random.git", saps_branch="random-branch"
 			)
 
-		is_valid_sparrow_branch(
-			"https://github.com/TechSparrownova/sparrow.git", sparrow_branch="develop"
+		is_valid_saps_branch(
+			"https://github.com/TechSparrownova/sparrow.git", saps_branch="develop"
 		)
-		is_valid_sparrow_branch(
-			"https://github.com/TechSparrownova/sparrow.git", sparrow_branch="v13.29.0"
+		is_valid_saps_branch(
+			"https://github.com/TechSparrownova/sparrow.git", saps_branch="v13.29.0"
 		)
 
 	def test_app_states(self):
@@ -65,30 +65,30 @@ class TestUtils(unittest.TestCase):
 
 		self.assertEqual(fake_snova.apps.states, {})
 
-		sparrow_path = os.path.join(snova_dir, "apps", "sparrow")
+		saps_path = os.path.join(snova_dir, "apps", "sparrow")
 
-		os.makedirs(os.path.join(sparrow_path, "sparrow"))
+		os.makedirs(os.path.join(saps_path, "sparrow"))
 
-		subprocess.run(["git", "init"], cwd=sparrow_path, capture_output=True, check=True)
+		subprocess.run(["git", "init"], cwd=saps_path, capture_output=True, check=True)
 
-		with open(os.path.join(sparrow_path, "sparrow", "__init__.py"), "w+") as f:
+		with open(os.path.join(saps_path, "sparrow", "__init__.py"), "w+") as f:
 			f.write("__version__ = '11.0'")
 
-		subprocess.run(["git", "add", "."], cwd=sparrow_path, capture_output=True, check=True)
+		subprocess.run(["git", "add", "."], cwd=saps_path, capture_output=True, check=True)
 		subprocess.run(
 			["git", "config", "user.email", "snova-test_app_states@gha.com"],
-			cwd=sparrow_path,
+			cwd=saps_path,
 			capture_output=True,
 			check=True,
 		)
 		subprocess.run(
 			["git", "config", "user.name", "App States Test"],
-			cwd=sparrow_path,
+			cwd=saps_path,
 			capture_output=True,
 			check=True,
 		)
 		subprocess.run(
-			["git", "commit", "-m", "temp"], cwd=sparrow_path, capture_output=True, check=True
+			["git", "commit", "-m", "temp"], cwd=saps_path, capture_output=True, check=True
 		)
 
 		fake_snova.apps.update_apps_states(app_name="sparrow")

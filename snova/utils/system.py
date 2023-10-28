@@ -11,10 +11,10 @@ from snova.utils import (
 	exec_cmd,
 	get_process_manager,
 	log,
-	run_sparrow_cmd,
+	run_saps_cmd,
 	sudoers_file,
 	which,
-	is_valid_sparrow_branch,
+	is_valid_saps_branch,
 )
 from snova.utils.snova import build_assets, clone_apps_from
 from snova.utils.render import job
@@ -26,8 +26,8 @@ def init(
 	apps_path=None,
 	no_procfile=False,
 	no_backups=False,
-	sparrow_path=None,
-	sparrow_branch=None,
+	saps_path=None,
+	saps_branch=None,
 	verbose=False,
 	clone_from=None,
 	skip_redis_config_generation=False,
@@ -74,11 +74,11 @@ def init(
 
 	# remote apps
 	else:
-		sparrow_path = sparrow_path or "https://github.com/TechSparrownova/sparrow.git"
-		is_valid_sparrow_branch(sparrow_path=sparrow_path, sparrow_branch=sparrow_branch)
+		saps_path = saps_path or "https://github.com/TechSparrownova/sparrow.git"
+		is_valid_saps_branch(saps_path=saps_path, saps_branch=saps_branch)
 		get_app(
-			sparrow_path,
-			branch=sparrow_branch,
+			saps_path,
+			branch=saps_branch,
 			snova_path=path,
 			skip_assets=True,
 			verbose=verbose,
@@ -93,7 +93,7 @@ def init(
 	if install_app:
 		get_app(
 			install_app,
-			branch=sparrow_branch,
+			branch=saps_branch,
 			snova_path=path,
 			skip_assets=True,
 			verbose=verbose,
@@ -120,8 +120,8 @@ def setup_sudoers(user):
 		if set_permissions:
 			os.chmod("/etc/sudoers", 0o440)
 
-	template = snova.config.env().get_template("sparrow_sudoers")
-	sparrow_sudoers = template.render(
+	template = snova.config.env().get_template("saps_sudoers")
+	saps_sudoers = template.render(
 		**{
 			"user": user,
 			"service": which("service"),
@@ -132,7 +132,7 @@ def setup_sudoers(user):
 	)
 
 	with open(sudoers_file, "w") as f:
-		f.write(sparrow_sudoers)
+		f.write(saps_sudoers)
 
 	os.chmod(sudoers_file, 0o440)
 	log(f"Sudoers was set up for user {user}", level=1)
@@ -161,11 +161,11 @@ def start(no_dev=False, concurrency=None, procfile=None, no_prefix=False, procma
 
 
 def migrate_site(site, snova_path="."):
-	run_sparrow_cmd("--site", site, "migrate", snova_path=snova_path)
+	run_saps_cmd("--site", site, "migrate", snova_path=snova_path)
 
 
 def backup_site(site, snova_path="."):
-	run_sparrow_cmd("--site", site, "backup", snova_path=snova_path)
+	run_saps_cmd("--site", site, "backup", snova_path=snova_path)
 
 
 def backup_all_sites(snova_path="."):
@@ -175,21 +175,21 @@ def backup_all_sites(snova_path="."):
 		backup_site(site, snova_path=snova_path)
 
 
-def fix_prod_setup_perms(snova_path=".", sparrow_user=None):
+def fix_prod_setup_perms(snova_path=".", saps_user=None):
 	from glob import glob
 	from snova.snova import Snova
 
-	sparrow_user = sparrow_user or Snova(snova_path).conf.get("sparrow_user")
+	saps_user = saps_user or Snova(snova_path).conf.get("saps_user")
 
-	if not sparrow_user:
+	if not saps_user:
 		print("sparrow user not set")
 		sys.exit(1)
 
 	globs = ["logs/*", "config/*"]
 	for glob_name in globs:
 		for path in glob(glob_name):
-			uid = pwd.getpwnam(sparrow_user).pw_uid
-			gid = grp.getgrnam(sparrow_user).gr_gid
+			uid = pwd.getpwnam(saps_user).pw_uid
+			gid = grp.getgrnam(saps_user).gr_gid
 			os.chown(path, uid, gid)
 
 

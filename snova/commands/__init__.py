@@ -34,7 +34,7 @@ from snova.utils.cli import (
 def snova_command(snova_path="."):
 	import snova
 
-	snova.set_sparrow_version(snova_path=snova_path)
+	snova.set_saps_version(snova_path=snova_path)
 
 
 from snova.commands.make import (

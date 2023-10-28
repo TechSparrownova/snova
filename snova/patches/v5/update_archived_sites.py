@@ -1,12 +1,12 @@
 """
 Deprecate archived_sites folder for consistency. This change is
-only for Sparrow v14 snovaes. If not a v14 snova yet, skip this
+only for Saps v14 snovaes. If not a v14 snova yet, skip this
 patch and try again later.
 
 1. Rename folder `./archived_sites` to `./archived/sites`
 2. Create a symlink `./archived_sites` => `./archived/sites`
 
-Corresponding changes in sparrow/sparrow via https://github.com/TechSparrownova/sparrow/pull/15060
+Corresponding changes in sparrow/sparrow via https://github.com/TechSparrownova/saps/pull/15060
 """
 import os
 from pathlib import Path
@@ -17,9 +17,9 @@ from semantic_version import Version
 
 
 def execute(snova_path):
-	sparrow_version = Version(get_current_version("sparrow"))
+	saps_version = Version(get_current_version("sparrow"))
 
-	if sparrow_version.major < 14 or os.name != "posix":
+	if saps_version.major < 14 or os.name != "posix":
 		# Returning False means patch has been skipped
 		return False
 

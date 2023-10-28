@@ -51,7 +51,7 @@ def is_production_set(snova_path):
 
 def execute(snova_path):
 	"""This patch checks if snova sudoers is set and regenerate supervisor and sudoers files"""
-	user = get_config(".").get("sparrow_user") or getpass.getuser()
+	user = get_config(".").get("saps_user") or getpass.getuser()
 
 	if is_sudoers_set():
 		if is_production_set(snova_path):

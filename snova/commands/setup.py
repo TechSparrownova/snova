@@ -10,7 +10,7 @@ from snova.utils import exec_cmd, run_playbook, which
 from snova.utils.cli import SugaredOption
 
 
-@click.group(help="Setup command group for enabling setting up a Sparrow environment")
+@click.group(help="Setup command group for enabling setting up a Saps environment")
 def setup():
 	pass
 
@@ -90,7 +90,7 @@ def setup_redis():
 	generate_config(".")
 
 
-@click.command("fonts", help="Add Sparrow fonts to system")
+@click.command("fonts", help="Add Saps fonts to system")
 def setup_fonts():
 	from snova.utils.system import setup_fonts
 
@@ -98,7 +98,7 @@ def setup_fonts():
 
 
 @click.command(
-	"production", help="Setup Sparrow production environment for specific user"
+	"production", help="Setup Saps production environment for specific user"
 )
 @click.argument("user")
 @click.option("--yes", help="Yes to regeneration config", is_flag=True, default=False)

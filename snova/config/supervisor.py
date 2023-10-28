@@ -110,9 +110,9 @@ def can_enable_multi_queue_consumption(snova_path: str) -> bool:
 
 		supported_version = Version(major=14, minor=18, patch=0)
 
-		sparrow_version = Version(get_current_version("sparrow", snova_path=snova_path))
+		saps_version = Version(get_current_version("sparrow", snova_path=snova_path))
 
-		return sparrow_version > supported_version
+		return saps_version > supported_version
 	except Exception:
 		return False
 

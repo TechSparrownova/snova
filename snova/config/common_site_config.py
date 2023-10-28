@@ -8,7 +8,7 @@ default_config = {
 	"restart_systemd_on_update": False,
 	"serve_default_site": True,
 	"rebase_on_pull": False,
-	"sparrow_user": getpass.getuser(),
+	"saps_user": getpass.getuser(),
 	"shallow_clone": True,
 	"background_workers": 1,
 	"use_redis_auth": False,

@@ -6,8 +6,8 @@ import click
 @click.argument("path")
 @click.option(
 	"--version",
-	"--sparrow-branch",
-	"sparrow_branch",
+	"--saps-branch",
+	"saps_branch",
 	default=None,
 	help="Clone a particular branch of sparrow",
 )
@@ -20,7 +20,7 @@ import click
 @click.option(
 	"--apps_path", default=None, help="path to json files with apps to install after init"
 )
-@click.option("--sparrow-path", default=None, help="path to sparrow repo")
+@click.option("--saps-path", default=None, help="path to sparrow repo")
 @click.option("--clone-from", default=None, help="copy repos from path")
 @click.option(
 	"--clone-without-update", is_flag=True, help="copy repos from path without update"
@@ -42,8 +42,8 @@ import click
 def init(
 	path,
 	apps_path,
-	sparrow_path,
-	sparrow_branch,
+	saps_path,
+	saps_branch,
 	no_procfile,
 	no_backups,
 	clone_from,
@@ -70,8 +70,8 @@ def init(
 			apps_path=apps_path,  # can be used from --config flag? Maybe config file could have more info?
 			no_procfile=no_procfile,
 			no_backups=no_backups,
-			sparrow_path=sparrow_path,
-			sparrow_branch=sparrow_branch,
+			saps_path=saps_path,
+			saps_branch=saps_branch,
 			install_app=install_app,
 			clone_from=clone_from,
 			skip_redis_config_generation=skip_redis_config_generation,
@@ -167,12 +167,12 @@ def get_app(
 	)
 
 
-@click.command("new-app", help="Create a new Sparrow application under apps folder")
+@click.command("new-app", help="Create a new Saps application under apps folder")
 @click.option(
 	"--no-git",
 	is_flag=True,
 	flag_value="--no-git",
-	help="Do not initialize git repository for the app (available in Sparrow v14+)",
+	help="Do not initialize git repository for the app (available in Saps v14+)",
 )
 @click.argument("app-name")
 def new_app(app_name, no_git=None):

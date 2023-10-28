@@ -18,7 +18,7 @@ from snova.utils import (
 	check_latest_version,
 	drop_privileges,
 	find_parent_snova,
-	get_env_sparrow_commands,
+	get_env_saps_commands,
 	get_cmd_output,
 	is_snova_directory,
 	is_dist_editable,
@@ -96,7 +96,7 @@ def cli():
 		log(
 			"snova is installed in editable mode!\n\nThis is not the recommended mode"
 			" of installation for production. Instead, install the package from PyPI"
-			" with: `pip install sparrow-snova`\n",
+			" with: `pip install saps-snova`\n",
 			level=3,
 		)
 
@@ -115,7 +115,7 @@ def cli():
 	if len(sys.argv) == 1 or sys.argv[1] == "--help":
 		print(click.Context(snova_command).get_help())
 		if in_snova:
-			print(get_sparrow_help())
+			print(get_saps_help())
 		return
 
 	_opts = [x.opts + x.secondary_opts for x in snova_command.params]
@@ -132,8 +132,8 @@ def cli():
 			snova_command()
 
 	if in_snova:
-		if cmd_from_sys in get_sparrow_commands():
-			sparrow_cmd()
+		if cmd_from_sys in get_saps_commands():
+			saps_cmd()
 		else:
 			app_cmd()
 
@@ -173,7 +173,7 @@ def cmd_requires_root():
 def change_dir():
 	if os.path.exists("config.json") or "init" in sys.argv:
 		return
-	dir_path_file = "/etc/sparrow_snova_dir"
+	dir_path_file = "/etc/saps_snova_dir"
 	if os.path.exists(dir_path_file):
 		with open(dir_path_file) as f:
 			dir_path = f.read().strip()
@@ -183,10 +183,10 @@ def change_dir():
 
 def change_uid():
 	if is_root() and not cmd_requires_root():
-		sparrow_user = snova_config.get("sparrow_user")
-		if sparrow_user:
-			drop_privileges(uid_name=sparrow_user, gid_name=sparrow_user)
-			os.environ["HOME"] = pwd.getpwnam(sparrow_user).pw_dir
+		saps_user = snova_config.get("saps_user")
+		if saps_user:
+			drop_privileges(uid_name=saps_user, gid_name=saps_user)
+			os.environ["HOME"] = pwd.getpwnam(saps_user).pw_dir
 		else:
 			log(change_uid_msg, level=3)
 			sys.exit(1)
@@ -198,25 +198,25 @@ def app_cmd(snova_path="."):
 	os.execv(f, [f] + ["-m", "sparrow.utils.snova_helper"] + sys.argv[1:])
 
 
-def sparrow_cmd(snova_path="."):
+def saps_cmd(snova_path="."):
 	f = get_env_cmd("python", snova_path=snova_path)
 	os.chdir(os.path.join(snova_path, "sites"))
 	os.execv(f, [f] + ["-m", "sparrow.utils.snova_helper", "sparrow"] + sys.argv[1:])
 
 
-def get_sparrow_commands():
+def get_saps_commands():
 	if not is_snova_directory():
 		return set()
 
-	return set(get_env_sparrow_commands())
+	return set(get_env_saps_commands())
 
 
-def get_sparrow_help(snova_path="."):
+def get_saps_help(snova_path="."):
 	python = get_env_cmd("python", snova_path=snova_path)
 	sites_path = os.path.join(snova_path, "sites")
 	try:
 		out = get_cmd_output(
-			f"{python} -m sparrow.utils.snova_helper get-sparrow-help", cwd=sites_path
+			f"{python} -m sparrow.utils.snova_helper get-saps-help", cwd=sites_path
 		)
 		return "\n\nFramework commands:\n" + out.split("Commands:")[1]
 	except Exception:

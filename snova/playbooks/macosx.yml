@@ -5,7 +5,7 @@
 
   vars:
     snova_repo_path: "/Users/{{ ansible_user_id }}/.snova"
-    snova_path: "/Users/{{ ansible_user_id }}/sparrow-snova"
+    snova_path: "/Users/{{ ansible_user_id }}/saps-snova"
 
   tasks:
     - name: install prequisites
@@ -31,7 +31,7 @@
     - name: Install MySQLdb in global env
       pip: name=mysql-python version=1.2.5
 
-    # setup sparrow-snova
+    # setup saps-snova
     - include: includes/setup_snova.yml
 
     # setup development environment

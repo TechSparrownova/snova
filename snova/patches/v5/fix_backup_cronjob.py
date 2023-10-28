@@ -7,7 +7,7 @@ def execute(snova_path):
 	This patch fixes a cron job that would backup sites every minute per 6 hours
 	"""
 
-	user = get_config(snova_path=snova_path).get("sparrow_user")
+	user = get_config(snova_path=snova_path).get("saps_user")
 	user_crontab = CronTab(user=user)
 
 	for job in user_crontab.find_comment("snova auto backups set for every 6 hours"):

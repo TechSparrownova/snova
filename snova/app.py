@@ -25,9 +25,9 @@ from snova.utils import (
 	get_available_folder_name,
 	is_snova_directory,
 	is_git_url,
-	is_valid_sparrow_branch,
+	is_valid_saps_branch,
 	log,
-	run_sparrow_cmd,
+	run_saps_cmd,
 )
 from snova.utils.snova import build_assets, install_python_dev_dependencies
 from snova.utils.render import step
@@ -294,7 +294,7 @@ def make_resolution_plan(app: App, snova: "Snova"):
 
 	for app_name in app._get_dependencies():
 		dep_app = App(app_name, snova=snova)
-		is_valid_sparrow_branch(dep_app.url, dep_app.branch)
+		is_valid_saps_branch(dep_app.url, dep_app.branch)
 		dep_app.required_by = app.name
 		if dep_app.app_name in resolution:
 			click.secho(f"{dep_app.app_name} is already resolved skipping", fg="yellow")
@@ -315,7 +315,7 @@ def get_excluded_apps(snova_path="."):
 
 def add_to_excluded_apps_txt(app, snova_path="."):
 	if app == "sparrow":
-		raise ValueError("Sparrow app cannot be excluded from update")
+		raise ValueError("Saps app cannot be excluded from update")
 	if app not in os.listdir("apps"):
 		raise ValueError(f"The app {app} does not exist")
 	apps = get_excluded_apps(snova_path=snova_path)
@@ -347,7 +347,7 @@ def get_app(
 	init_snova=False,
 	resolve_deps=False,
 ):
-	"""snova get-app clones a Sparrow App from remote (GitHub or any other git server),
+	"""snova get-app clones a Saps App from remote (GitHub or any other git server),
 	and installs it on the current snova. This also resolves dependencies based on the
 	apps' required_apps defined in the hooks.py file.
 
@@ -366,7 +366,7 @@ def get_app(
 	branch = app.tag
 	snova_setup = False
 	restart_snova = not init_snova
-	sparrow_path, sparrow_branch = None, None
+	saps_path, saps_branch = None, None
 
 	if resolve_deps:
 		resolution = make_resolution_plan(app, snova)
@@ -378,7 +378,7 @@ def get_app(
 
 		if "sparrow" in resolution:
 			# Todo: Make sparrow a terminal dependency for all sparrow apps.
-			sparrow_path, sparrow_branch = resolution["sparrow"].url, resolution["sparrow"].tag
+			saps_path, saps_branch = resolution["sparrow"].url, resolution["sparrow"].tag
 
 	if not is_snova_directory(snova_path):
 		if not init_snova:
@@ -392,8 +392,8 @@ def get_app(
 		snova_path = get_available_folder_name(f"{app.repo}-snova", snova_path)
 		init(
 			path=snova_path,
-			sparrow_path=sparrow_path,
-			sparrow_branch=sparrow_branch or branch,
+			saps_path=saps_path,
+			saps_branch=saps_branch or branch,
 		)
 		os.chdir(snova_path)
 		snova_setup = True
@@ -515,7 +515,7 @@ def install_resolved_deps(
 
 
 def new_app(app, no_git=None, snova_path="."):
-	if snova.SPARROW_VERSION in (0, None):
+	if snova.SAPS_VERSION in (0, None):
 		raise NotInSnovaDirectoryError(
 			f"{os.path.realpath(snova_path)} is not a valid snova directory."
 		)
@@ -531,13 +531,13 @@ def new_app(app, no_git=None, snova_path="."):
 	apps = os.path.abspath(os.path.join(snova_path, "apps"))
 	args = ["make-app", apps, app]
 	if no_git:
-		if snova.SPARROW_VERSION < 14:
-			click.secho("Sparrow v14 or greater is needed for '--no-git' flag", fg="red")
+		if snova.SAPS_VERSION < 14:
+			click.secho("Saps v14 or greater is needed for '--no-git' flag", fg="red")
 			return
 		args.append(no_git)
 
 	logger.log(f"creating new app {app}")
-	run_sparrow_cmd(*args, snova_path=snova_path)
+	run_saps_cmd(*args, snova_path=snova_path)
 	install_app(app, snova_path=snova_path)
 
 

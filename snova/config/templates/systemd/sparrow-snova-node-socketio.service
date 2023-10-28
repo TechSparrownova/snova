@@ -1,5 +1,5 @@
 [Unit]
-After={{ snova_name }}-sparrow-web.service
+After={{ snova_name }}-saps-web.service
 Description="{{ snova_name }}-node-socketio"
 PartOf={{ snova_name }}-web.target
 
@@ -7,7 +7,7 @@ PartOf={{ snova_name }}-web.target
 User={{ user }}
 Group={{ user }}
 Restart=always
-ExecStart={{ node }} {{ snova_dir }}/apps/sparrow/socketio.js
+ExecStart={{ node }} {{ snova_dir }}/apps/saps/socketio.js
 StandardOutput=file:{{ snova_dir }}/logs/node-socketio.log
 StandardError=file:{{ snova_dir }}/logs/node-socketio.error.log
 WorkingDirectory={{ snova_dir }}

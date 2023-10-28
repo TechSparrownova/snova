@@ -1,5 +1,5 @@
 [Unit]
-Description="{{ snova_name }}-sparrow-short-worker %I"
+Description="{{ snova_name }}-saps-short-worker %I"
 PartOf={{ snova_name }}-workers.target
 
 [Service]

@@ -1,5 +1,5 @@
 [Unit]
-Description="{{ snova_name }}-sparrow-schedule"
+Description="{{ snova_name }}-saps-schedule"
 PartOf={{ snova_name }}-workers.target
 
 [Service]

@@ -1,11 +1,11 @@
 [project]
-name = "sparrow-snova"
-description = "CLI to manage Multi-tenant deployments for Sparrow apps"
+name = "saps-snova"
+description = "CLI to manage Multi-tenant deployments for Saps apps"
 readme = "README.md"
 license = "GPL-3.0-only"
 requires-python = ">=3.7"
 authors = [
-    { name = "Sparrow Nova Pvt Ltd", email = "developers@sparrow.io" },
+    { name = "Saps Nova Pvt Ltd", email = "developers@sparrow.io" },
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

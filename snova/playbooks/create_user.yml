@@ -6,24 +6,24 @@
     tasks:
     - name: Create user
       user:
-        name: '{{ sparrow_user }}'
+        name: '{{ saps_user }}'
         generate_ssh_key: yes
 
     - name: Set home folder perms
       file:
         path: '{{ user_directory }}'
         mode: 'o+rx'
-        owner: '{{ sparrow_user }}'
-        group: '{{ sparrow_user }}'
+        owner: '{{ saps_user }}'
+        group: '{{ saps_user }}'
         recurse: yes
 
     - name: Set /tmp/.snova folder perms
       file:
         path: '{{ repo_path }}'
-        owner: '{{ sparrow_user }}'
-        group: '{{ sparrow_user }}'
+        owner: '{{ saps_user }}'
+        group: '{{ saps_user }}'
         recurse: yes
 
     - name: Change default shell to bash
-      shell: "chsh {{ sparrow_user }} -s $(which bash)"
+      shell: "chsh {{ saps_user }} -s $(which bash)"
 ...

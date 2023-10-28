@@ -33,16 +33,16 @@
 
   - name: Fix permissions
     become_user: root
-    command: chown {{ sparrow_user }} -R {{ user_directory }}
+    command: chown {{ saps_user }} -R {{ user_directory }}
 
   - name:  python3 snova init for develop
-    command: snova init {{ snova_path }} --sparrow-path {{ sparrow_repo_url }} --sparrow-branch {{ sparrow_branch }} --python {{ python }}
+    command: snova init {{ snova_path }} --saps-path {{ saps_repo_url }} --saps-branch {{ saps_branch }} --python {{ python }}
     args:
       creates: "{{ snova_path }}"
     when: not snova_stat.stat.exists and not production
 
   - name: python3 snova init for production
-    command: snova init {{ snova_path }} --sparrow-path {{ sparrow_repo_url }} --sparrow-branch {{ sparrow_branch }} --python {{ python }}
+    command: snova init {{ snova_path }} --saps-path {{ saps_repo_url }} --saps-branch {{ saps_branch }} --python {{ python }}
     args:
       creates: "{{ snova_path }}"
     when: not snova_stat.stat.exists and production

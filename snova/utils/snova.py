@@ -55,7 +55,7 @@ def update_node_packages(snova_path=".", apps=None):
 
 	v = LooseVersion(get_develop_version("sparrow", snova_path=snova_path))
 
-	# After rollup was merged, sparrow_version = 10.1
+	# After rollup was merged, saps_version = 10.1
 	# if develop_verion is 11 and up, only then install yarn
 	if v < LooseVersion("11.x.x-develop"):
 		update_npm_packages(snova_path, apps=apps)
@@ -357,13 +357,13 @@ def handle_version_upgrade(version_upgrade, snova_path, force, reset, conf):
 	if version_upgrade[0]:
 		if force:
 			log(
-				"""Force flag has been used for a major version change in Sparrow and it's apps.
+				"""Force flag has been used for a major version change in Saps and it's apps.
 This will take significant time to migrate and might break custom apps.""",
 				level=3,
 			)
 		else:
 			print(
-				f"""This update will cause a major version change in Sparrow/SHOPPER from {version_upgrade[1]} to {version_upgrade[2]}.
+				f"""This update will cause a major version change in Saps/SHOPPER from {version_upgrade[1]} to {version_upgrade[2]}.
 This would take significant time to migrate and might break custom apps."""
 			)
 			click.confirm("Do you want to continue?", abort=True)
@@ -462,7 +462,7 @@ def update(
 	update_config(conf, snova_path=snova_path)
 
 	print(
-		"_" * 80 + "\nSnova: Deployment tool for Sparrow and Sparrow Applications"
+		"_" * 80 + "\nSnova: Deployment tool for Saps and Saps Applications"
 		" (https://sparrownova.com/snova).\nOpen source depends on your contributions, so do"
 		" give back by submitting bug reports, patches and fixes and be a part of the"
 		" community :)"
@@ -517,7 +517,7 @@ def remove_backups_crontab(snova_path="."):
 	logger.log("removing backup cronjob")
 
 	snova_dir = os.path.abspath(snova_path)
-	user = Snova(snova_dir).conf.get("sparrow_user")
+	user = Snova(snova_dir).conf.get("saps_user")
 	logfile = os.path.join(snova_dir, "logs", "backup.log")
 	system_crontab = CronTab(user=user)
 	backup_command = f"cd {snova_dir} && {sys.argv[0]} --verbose --site all backup"
@@ -618,7 +618,7 @@ def validate_branch():
 			print(
 				"""'master' branch is renamed to 'version-11' since 'version-12' release.
 As of January 2020, the following branches are
-version		Sparrow			SHOPPER
+version		Saps			SHOPPER
 11		version-11		version-11
 12		version-12		version-12
 13		version-13		version-13

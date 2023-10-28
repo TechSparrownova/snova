@@ -100,7 +100,7 @@ class TestSetupProduction(TestSnovaBase):
 			f = f.read()
 
 			tests = [
-				f"program:{snova_name}-sparrow-web",
+				f"program:{snova_name}-saps-web",
 				f"program:{snova_name}-redis-cache",
 				f"program:{snova_name}-redis-queue",
 				f"group:{snova_name}-web",
@@ -114,20 +114,20 @@ class TestSetupProduction(TestSnovaBase):
 			if use_rq:
 				tests.extend(
 					[
-						f"program:{snova_name}-sparrow-schedule",
-						f"program:{snova_name}-sparrow-default-worker",
-						f"program:{snova_name}-sparrow-short-worker",
-						f"program:{snova_name}-sparrow-long-worker",
+						f"program:{snova_name}-saps-schedule",
+						f"program:{snova_name}-saps-default-worker",
+						f"program:{snova_name}-saps-short-worker",
+						f"program:{snova_name}-saps-long-worker",
 					]
 				)
 
 			else:
 				tests.extend(
 					[
-						f"program:{snova_name}-sparrow-workerbeat",
-						f"program:{snova_name}-sparrow-worker",
-						f"program:{snova_name}-sparrow-longjob-worker",
-						f"program:{snova_name}-sparrow-async-worker",
+						f"program:{snova_name}-saps-workerbeat",
+						f"program:{snova_name}-saps-worker",
+						f"program:{snova_name}-saps-longjob-worker",
+						f"program:{snova_name}-saps-async-worker",
 					]
 				)
 
@@ -143,7 +143,7 @@ class TestSetupProduction(TestSnovaBase):
 			out = get_cmd_output("supervisorctl status")
 
 		tests = [
-			r"{snova_name}-web:{snova_name}-sparrow-web[\s]+RUNNING",
+			r"{snova_name}-web:{snova_name}-saps-web[\s]+RUNNING",
 			# Have commented for the time being. Needs to be uncommented later on. Snova is failing on travis because of this.
 			# It works on one snova and fails on another.giving FATAL or BACKOFF (Exited too quickly (process log may have details))
 			# "{snova_name}-web:{snova_name}-node-socketio[\s]+RUNNING",
@@ -154,20 +154,20 @@ class TestSetupProduction(TestSnovaBase):
 		if use_rq:
 			tests.extend(
 				[
-					r"{snova_name}-workers:{snova_name}-sparrow-schedule[\s]+RUNNING",
-					r"{snova_name}-workers:{snova_name}-sparrow-default-worker-0[\s]+RUNNING",
-					r"{snova_name}-workers:{snova_name}-sparrow-short-worker-0[\s]+RUNNING",
-					r"{snova_name}-workers:{snova_name}-sparrow-long-worker-0[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-schedule[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-default-worker-0[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-short-worker-0[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-long-worker-0[\s]+RUNNING",
 				]
 			)
 
 		else:
 			tests.extend(
 				[
-					r"{snova_name}-workers:{snova_name}-sparrow-workerbeat[\s]+RUNNING",
-					r"{snova_name}-workers:{snova_name}-sparrow-worker[\s]+RUNNING",
-					r"{snova_name}-workers:{snova_name}-sparrow-longjob-worker[\s]+RUNNING",
-					r"{snova_name}-workers:{snova_name}-sparrow-async-worker[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-workerbeat[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-worker[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-longjob-worker[\s]+RUNNING",
+					r"{snova_name}-workers:{snova_name}-saps-async-worker[\s]+RUNNING",
 				]
 			)
 

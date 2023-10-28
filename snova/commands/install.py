@@ -9,7 +9,7 @@ import click
 extra_vars = {"production": True}
 
 
-@click.group(help="Install system dependencies for setting up Sparrow environment")
+@click.group(help="Install system dependencies for setting up Saps environment")
 def install():
 	pass
 

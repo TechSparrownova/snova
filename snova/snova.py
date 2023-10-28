@@ -17,11 +17,11 @@ from snova.utils import (
 	paths_in_snova,
 	exec_cmd,
 	is_snova_directory,
-	is_sparrow_app,
+	is_saps_app,
 	get_cmd_output,
 	get_git_version,
 	log,
-	run_sparrow_cmd,
+	run_saps_cmd,
 )
 from snova.utils.snova import (
 	validate_app_installed_on_sites,
@@ -139,7 +139,7 @@ class Snova(Base, Validator):
 	@step(title="Building Snova Assets", success="Snova Assets Built")
 	def build(self):
 		# build assets & stuff
-		run_sparrow_cmd("build", snova_path=self.name)
+		run_saps_cmd("build", snova_path=self.name)
 
 	@step(title="Reloading Snova Processes", success="Snova Processes Reloaded")
 	def reload(self, web=False, supervisor=True, systemd=True, _raise=True):
@@ -277,7 +277,7 @@ class SnovaApps(MutableSequence):
 			self.apps = [
 				x
 				for x in os.listdir(os.path.join(self.snova.name, "apps"))
-				if is_sparrow_app(os.path.join(self.snova.name, "apps", x))
+				if is_saps_app(os.path.join(self.snova.name, "apps", x))
 			]
 			self.apps.remove("sparrow")
 			self.apps.insert(0, "sparrow")
@@ -433,7 +433,7 @@ class SnovaSetup(Base):
 		from crontab import CronTab
 
 		snova_dir = os.path.abspath(self.snova.name)
-		user = self.snova.conf.get("sparrow_user")
+		user = self.snova.conf.get("saps_user")
 		logfile = os.path.join(snova_dir, "logs", "backup.log")
 		system_crontab = CronTab(user=user)
 		backup_command = f"cd {snova_dir} && {sys.argv[0]} --verbose --site all backup"

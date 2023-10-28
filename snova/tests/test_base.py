@@ -15,10 +15,10 @@ from snova.snova import Snova
 
 PYTHON_VER = sys.version_info
 
-SPARROW_BRANCH = "version-13-hotfix"
+SAPS_BRANCH = "version-13-hotfix"
 if PYTHON_VER.major == 3:
 	if PYTHON_VER.minor >= 10:
-		SPARROW_BRANCH = "develop"
+		SAPS_BRANCH = "develop"
 
 
 class TestSnovaBase(unittest.TestCase):
@@ -100,11 +100,11 @@ class TestSnovaBase(unittest.TestCase):
 
 	def init_snova(self, snova_name, **kwargs):
 		self.snovaes.append(snova_name)
-		sparrow_tmp_path = "/tmp/sparrow"
+		saps_tmp_path = "/tmp/sparrow"
 
-		if not os.path.exists(sparrow_tmp_path):
+		if not os.path.exists(saps_tmp_path):
 			exec_cmd(
-				f"git clone https://github.com/TechSparrownova/sparrow -b {SPARROW_BRANCH} --depth 1 --origin upstream {sparrow_tmp_path}"
+				f"git clone https://github.com/TechSparrownova/sparrow -b {SAPS_BRANCH} --depth 1 --origin upstream {saps_tmp_path}"
 			)
 
 		kwargs.update(
@@ -112,7 +112,7 @@ class TestSnovaBase(unittest.TestCase):
 				python=sys.executable,
 				no_procfile=True,
 				no_backups=True,
-				sparrow_path=sparrow_tmp_path,
+				saps_path=saps_tmp_path,
 			)
 		)
 

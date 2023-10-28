@@ -53,7 +53,7 @@ def setup_production(user, snova_path=".", yes=False):
 
 	print("Setting Up NGINX...")
 	make_nginx_conf(snova_path=snova_path, yes=yes)
-	fix_prod_setup_perms(snova_path, sparrow_user=user)
+	fix_prod_setup_perms(snova_path, saps_user=user)
 	remove_default_nginx_configs()
 
 	snova_name = get_snova_name(snova_path)

@@ -10,14 +10,14 @@ import git
 # imports - module imports
 from snova.utils import exec_cmd
 from snova.app import App
-from snova.tests.test_base import SPARROW_BRANCH, TestSnovaBase
+from snova.tests.test_base import SAPS_BRANCH, TestSnovaBase
 from snova.snova import Snova
 
 
-# changed from sparrow_theme because it wasn't maintained and incompatible,
-# chat app & wiki was breaking too. hopefully sparrow_docs will be maintained
+# changed from saps_theme because it wasn't maintained and incompatible,
+# chat app & wiki was breaking too. hopefully saps_docs will be maintained
 # for longer since docs.shopper.com is powered by it ;)
-TEST_SPARROW_APP = "sparrow_docs"
+TEST_SAPS_APP = "saps_docs"
 
 
 class TestSnovaInit(TestSnovaBase):
@@ -98,20 +98,20 @@ class TestSnovaInit(TestSnovaBase):
 	def test_get_app(self):
 		self.init_snova("test-snova", skip_assets=True)
 		snova_path = os.path.join(self.snovaes_path, "test-snova")
-		exec_cmd(f"snova get-app {TEST_SPARROW_APP} --skip-assets", cwd=snova_path)
-		self.assertTrue(os.path.exists(os.path.join(snova_path, "apps", TEST_SPARROW_APP)))
-		app_installed_in_env = TEST_SPARROW_APP in subprocess.check_output(
+		exec_cmd(f"snova get-app {TEST_SAPS_APP} --skip-assets", cwd=snova_path)
+		self.assertTrue(os.path.exists(os.path.join(snova_path, "apps", TEST_SAPS_APP)))
+		app_installed_in_env = TEST_SAPS_APP in subprocess.check_output(
 			["snova", "pip", "freeze"], cwd=snova_path
 		).decode("utf8")
 		self.assertTrue(app_installed_in_env)
 
-	@unittest.skipIf(SPARROW_BRANCH != "develop", "only for develop branch")
+	@unittest.skipIf(SAPS_BRANCH != "develop", "only for develop branch")
 	def test_get_app_resolve_deps(self):
-		SPARROW_APP = "healthcare"
+		SAPS_APP = "healthcare"
 		self.init_snova("test-snova", skip_assets=True)
 		snova_path = os.path.join(self.snovaes_path, "test-snova")
-		exec_cmd(f"snova get-app {SPARROW_APP} --resolve-deps --skip-assets", cwd=snova_path)
-		self.assertTrue(os.path.exists(os.path.join(snova_path, "apps", SPARROW_APP)))
+		exec_cmd(f"snova get-app {SAPS_APP} --resolve-deps --skip-assets", cwd=snova_path)
+		self.assertTrue(os.path.exists(os.path.join(snova_path, "apps", SAPS_APP)))
 
 		states_path = os.path.join(snova_path, "sites", "apps.json")
 		self.assertTrue(os.path.exists(states_path))
@@ -119,7 +119,7 @@ class TestSnovaInit(TestSnovaBase):
 		with open(states_path) as f:
 			states = json.load(f)
 
-		self.assertTrue(SPARROW_APP in states)
+		self.assertTrue(SAPS_APP in states)
 
 	def test_install_app(self):
 		snova_name = "test-snova"
@@ -128,13 +128,13 @@ class TestSnovaInit(TestSnovaBase):
 
 		self.init_snova(snova_name, skip_assets=True)
 		exec_cmd(
-			f"snova get-app {TEST_SPARROW_APP} --branch master --skip-assets", cwd=snova_path
+			f"snova get-app {TEST_SAPS_APP} --branch master --skip-assets", cwd=snova_path
 		)
 
-		self.assertTrue(os.path.exists(os.path.join(snova_path, "apps", TEST_SPARROW_APP)))
+		self.assertTrue(os.path.exists(os.path.join(snova_path, "apps", TEST_SAPS_APP)))
 
 		# check if app is installed
-		app_installed_in_env = TEST_SPARROW_APP in subprocess.check_output(
+		app_installed_in_env = TEST_SAPS_APP in subprocess.check_output(
 			["snova", "pip", "freeze"], cwd=snova_path
 		).decode("utf8")
 		self.assertTrue(app_installed_in_env)
@@ -142,7 +142,7 @@ class TestSnovaInit(TestSnovaBase):
 		# create and install app on site
 		self.new_site(site_name, snova_name)
 		installed_app = not exec_cmd(
-			f"snova --site {site_name} install-app {TEST_SPARROW_APP}",
+			f"snova --site {site_name} install-app {TEST_SAPS_APP}",
 			cwd=snova_path,
 			_raise=False,
 		)
@@ -151,25 +151,25 @@ class TestSnovaInit(TestSnovaBase):
 			app_installed_on_site = subprocess.check_output(
 				["snova", "--site", site_name, "list-apps"], cwd=snova_path
 			).decode("utf8")
-			self.assertTrue(TEST_SPARROW_APP in app_installed_on_site)
+			self.assertTrue(TEST_SAPS_APP in app_installed_on_site)
 
 	def test_remove_app(self):
 		self.init_snova("test-snova", skip_assets=True)
 		snova_path = os.path.join(self.snovaes_path, "test-snova")
 
 		exec_cmd(
-			f"snova get-app {TEST_SPARROW_APP} --branch master --overwrite --skip-assets",
+			f"snova get-app {TEST_SAPS_APP} --branch master --overwrite --skip-assets",
 			cwd=snova_path,
 		)
-		exec_cmd(f"snova remove-app {TEST_SPARROW_APP}", cwd=snova_path)
+		exec_cmd(f"snova remove-app {TEST_SAPS_APP}", cwd=snova_path)
 
 		with open(os.path.join(snova_path, "sites", "apps.txt")) as f:
-			self.assertFalse(TEST_SPARROW_APP in f.read())
+			self.assertFalse(TEST_SAPS_APP in f.read())
 		self.assertFalse(
-			TEST_SPARROW_APP
+			TEST_SAPS_APP
 			in subprocess.check_output(["snova", "pip", "freeze"], cwd=snova_path).decode("utf8")
 		)
-		self.assertFalse(os.path.exists(os.path.join(snova_path, "apps", TEST_SPARROW_APP)))
+		self.assertFalse(os.path.exists(os.path.join(snova_path, "apps", TEST_SAPS_APP)))
 
 	def test_switch_to_branch(self):
 		self.init_snova("test-snova", skip_assets=True)
@@ -178,9 +178,9 @@ class TestSnovaInit(TestSnovaBase):
 
 		# * chore: change to 14 when avalible
 		prevoius_branch = "version-13"
-		if SPARROW_BRANCH != "develop":
+		if SAPS_BRANCH != "develop":
 			# assuming we follow `version-#`
-			prevoius_branch = f"version-{int(SPARROW_BRANCH.split('-')[1]) - 1}"
+			prevoius_branch = f"version-{int(SAPS_BRANCH.split('-')[1]) - 1}"
 
 		successful_switch = not exec_cmd(
 			f"snova switch-to-branch {prevoius_branch} sparrow --upgrade",
@@ -192,13 +192,13 @@ class TestSnovaInit(TestSnovaBase):
 			self.assertEqual(prevoius_branch, app_branch_after_switch)
 
 		successful_switch = not exec_cmd(
-			f"snova switch-to-branch {SPARROW_BRANCH} sparrow --upgrade",
+			f"snova switch-to-branch {SAPS_BRANCH} sparrow --upgrade",
 			cwd=snova_path,
 			_raise=False,
 		)
 		if successful_switch:
 			app_branch_after_second_switch = str(git.Repo(path=app_path).active_branch)
-			self.assertEqual(SPARROW_BRANCH, app_branch_after_second_switch)
+			self.assertEqual(SAPS_BRANCH, app_branch_after_second_switch)
 
 
 if __name__ == "__main__":

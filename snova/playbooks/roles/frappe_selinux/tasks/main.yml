@@ -12,14 +12,14 @@
   register: enabled_modules
   when: ansible_distribution == 'CentOS'
 
-- name: Copy sparrow_selinux policy
-  copy: src=sparrow_selinux.te dest=/root/sparrow_selinux.te
-  register: dest_sparrow_selinux_te
+- name: Copy saps_selinux policy
+  copy: src=saps_selinux.te dest=/root/saps_selinux.te
+  register: dest_saps_selinux_te
   when: ansible_distribution == 'CentOS'
 
-- name: Compile sparrow_selinux policy
-  shell: "make -f /usr/share/selinux/devel/Makefile sparrow_selinux.pp && semodule -i sparrow_selinux.pp"
+- name: Compile saps_selinux policy
+  shell: "make -f /usr/share/selinux/devel/Makefile saps_selinux.pp && semodule -i saps_selinux.pp"
   args:
     chdir: /root/
-  when: "ansible_distribution == 'CentOS' and enabled_modules.stdout.find('sparrow_selinux') == -1 or dest_sparrow_selinux_te.changed"
+  when: "ansible_distribution == 'CentOS' and enabled_modules.stdout.find('saps_selinux') == -1 or dest_saps_selinux_te.changed"
 ...

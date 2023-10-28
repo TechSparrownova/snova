@@ -1,5 +1,5 @@
 [Unit]
-Description="{{ snova_name }}-sparrow-web"
+Description="{{ snova_name }}-saps-web"
 PartOf={{ snova_name }}-web.target
 
 [Service]
